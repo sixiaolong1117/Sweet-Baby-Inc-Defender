@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Sweet Baby Inc Defender
 // @namespace    https://github.com/SIXiaolong1117/Sweet-Baby-Inc-Defender
-// @version      0.1
+// @version      0.2
 // @description  隐藏被 Sweet Baby Inc detected 标记为"不推荐"的游戏。
 // @license      MIT
 // @icon         https://store.steampowered.com/favicon.ico
@@ -27,13 +27,13 @@
     let notRecommendedGames = new Set();
     let isLoading = false;
 
-    // 获取鉴赏家的不推荐游戏列表
+    // 获取 Sweet Baby Inc detected 的不推荐游戏列表
     async function fetchCuratorNotRecommendedGames() {
         if (isLoading) return;
         isLoading = true;
 
         try {
-            console.log('正在获取鉴赏家不推荐列表...');
+            console.log('正在获取 Sweet Baby Inc detected 不推荐列表...');
             
             // 尝试从本地缓存读取（24小时有效）
             const cached = GM_getValue('notRecommendedGames_' + CURATOR_ID);
@@ -48,7 +48,7 @@
                 return;
             }
 
-            // 获取鉴赏家页面
+            // 获取 Sweet Baby Inc detected 页面
             const response = await fetch(`https://store.steampowered.com/curator/${CURATOR_ID}-/ajaxgetfilteredrecommendations/render/?query=&start=0&count=200&tagids=&sort=recent&types=0`);
             const data = await response.json();
             
@@ -85,7 +85,7 @@
                 hideGames();
             }
         } catch (error) {
-            console.error('获取鉴赏家列表失败:', error);
+            console.error('获取 Sweet Baby Inc detected 列表失败:', error);
         }
         
         isLoading = false;
@@ -158,7 +158,7 @@
 
     // 添加手动刷新按钮（可选）
     const refreshBtn = document.createElement('button');
-    refreshBtn.textContent = '🔄 刷新鉴赏家列表';
+    refreshBtn.textContent = '🔄 刷新 Sweet Baby Inc detected 列表';
     refreshBtn.style.cssText = 'position:fixed;bottom:20px;right:20px;z-index:9999;padding:10px;background:#1b2838;color:#fff;border:none;border-radius:5px;cursor:pointer;';
     refreshBtn.onclick = function() {
         GM_setValue('cacheTime_' + CURATOR_ID, 0); // 清除缓存
